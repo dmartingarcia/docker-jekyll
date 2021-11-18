@@ -1,0 +1,29 @@
+version: '3.6'
+
+services:
+  jekyll:
+    image: jekyll/jekyll:latest
+    command: sh -c "bundle && bundle exec jekyll serve --watch --force_polling --livereload --incremental --host 0.0.0.0"
+    ports:
+      - 4000:4000
+    environment:
+      - GEM_HOME=/srv/jekyll/bundle
+    volumes:
+      - ./site:/srv/jekyll
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jekyll.rule=Host(`dmartingarcia.es`)"
+      - "traefik.http.routers.jekyll.tls=true"
+      - "traefik.http.routers.jekyll.entrypoints=websecure"
+      - "traefik.http.routers.jekyll.tls.certresolver=lets-encrypt"
+      - "traefik.port=4000"
+    networks:
+      - internal
+      - web
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+    driver: bridge
