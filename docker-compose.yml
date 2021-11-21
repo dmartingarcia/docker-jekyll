@@ -3,7 +3,7 @@ version: '3.6'
 services:
   jekyll:
     image: jekyll/jekyll:latest
-    command: sh -c "bundle && bundle exec jekyll serve --watch --force_polling --livereload --incremental --host 0.0.0.0"
+    command: sh -c "bundle && bundle exec jekyll serve --watch --force_polling --livereload --host 0.0.0.0"
     ports:
       - 4000:4000
     restart: unless-stopped
